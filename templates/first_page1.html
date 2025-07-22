@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Date and Location</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/static/fist.jpg'); /* Add your image path here */
+            background-size: cover; /* Ensures the image covers the entire screen */
+            background-position: center center; /* Centers the image */
+            background-attachment: fixed; 
+        }
+
+        /* Container for the form and images */
+        .content-container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Form styling */
+        .form-container {
+            width: 45%;
+            background-color: #f4f7fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 10px;
+            display: block;
+        }
+        p{
+            font-size: 16px;
+            color: #0b0909;
+            margin-bottom: 10px;
+            display: block;
+            justify-content: left;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Image and text styling */
+        .bio-container {
+            width: 45%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bio-container img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+        }
+        .bio-container img:hover {
+    transform: scale(1.1); /* Slightly enlarge the image */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add a shadow */
+}
+
+        .bio-container h3 {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #0f0d0d;
+        }
+
+        .bio-container p {
+            font-size: 16px;
+            color: #1e1a1a;
+        }
+
+        @media (max-width: 768px) {
+            .content-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .form-container, .bio-container {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-container">
+        <!-- Form Section -->
+        <div class="form-container">
+            <h1>Step 1: Provide Date and Location</h1>
+            <form method="POST">
+                <label for="year">Year:</label>
+                <input type="number" id="year" name="year" required><br><br>
+
+                <label for="month">Month:</label>
+                <select id="month" name="month" required>
+                    <option value="" disabled selected>Select Month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select><br><br>
+
+                <label for="day">Day:</label>
+                <input type="number" id="day" name="day" required><br><br>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required><br><br>
+
+                <button type="submit">Next</button>
+            </form>
+        </div>
+
+        <!-- Bio Section for Galileo and Johannes Kepler -->
+        <div class="bio-container">
+            <div>
+                <img src="/static/galelio.jpg" alt="Galileo Galilei">
+                <h3>Galileo Galilei</h3>
+                <p>Galileo was an Italian astronomer, physicist, and engineer, often referred to as the "father of modern observational astronomy." His advancements in the telescope and his observations on the moons of Jupiter have directly influenced how we observe and understand celestial bodies today, which could contribute to the astronomical event predictions in our project.</p>
+            </div>
+            <div>
+                <img src="/static/kepler.webp" alt="Johannes Kepler">
+                <h3>Johannes Kepler</h3>
+                <p>Kepler, a German astronomer, is known for his laws of planetary motion. His work on the elliptical orbits of planets laid the foundation for understanding celestial mechanics. His contributions to the understanding of planetary movement and orbits would help enhance the accuracy of predicting celestial events for our project.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

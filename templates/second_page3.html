@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Solar and Lunar Positions</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f9f9fc, #e8ebf2);
+            background-image: url('/static/second.gif'); /* Add your image path here */
+            background-size: cover; /* Ensures the image covers the entire screen */
+            background-position: center center; /* Centers the image */
+            background-attachment: fixed; 
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .form-section {
+            flex: 1;
+            padding-right: 40px; /* Add spacing between form and images */
+        }
+        .image-section {
+            flex: 1;
+            position: relative;
+        }
+        .image-section img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .image-section img:hover {
+            transform: scale(1.05); /* Slight zoom-in effect */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+        .annotation {
+            position: relative; /* Positioned above the content */
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 10px; /* Adds space between annotation and content */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #34495e;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        label, input {
+            margin: 8px 0;
+        }
+        .input-box {
+            width: 100%; /* Full-width for responsive layout */
+            max-width: 500px; /* Maximum width */
+            padding: 12px; /* Inner padding for comfort */
+            font-size: 16px; /* Larger font for readability */
+            border: 1px solid #ccc; /* Border style */
+            border-radius: 6px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: all 0.3s ease; /* Smooth transitions on focus */
+        }
+
+        /* Hover and Focus Effects */
+        .input-box:focus {
+            border-color: #3498db; /* Highlight border on focus */
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); /* Glow effect */
+            outline: none; /* Remove default outline */
+        }
+
+        .input-box:hover {
+            border-color: #2980b9; /* Slightly darker border on hover */
+        }
+        
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 600px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(221, 221, 225, 0.8);
+        }
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to right, #2980b9, #8e44ad);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+        .go-back {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+        .go-back a {
+            text-decoration: none;
+            color: #3498db;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        .go-back a:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .content {
+            text-align: left;
+            font-size: 16px;
+            color: #555;
+            margin-top: 10px; /* Space between annotation and content */
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .result h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h1>Step 2: Provide Solar and Lunar Positions</h1>
+            <p><strong>Date:</strong> {{ year }}-{{ month }}-{{ day }}</p>
+            <p><strong>Location:</strong> {{ location }}</p>
+            <p><strong>Day of Year:</strong> {{ day_of_year }}</p>
+            <p><strong>Solar Declination:</strong> {{ solar_declination }} degrees</p>
+            <p><strong>Solar Altitude:</strong> {{ solar_altitude }} degrees</p>
+            <p><strong>Solar Azimuth:</strong> {{ solar_azimuth }} degrees</p>
+            <p><strong>Lunar Phase:</strong> {{ lunar_phase }} degrees</p>
+            <p><strong>Lunar Altitude:</strong> {{ lunar_altitude }} degrees</p>
+            <p><strong>Distance from Earth to the Moon:</strong> {{ distance_to_moon }} km</p>
+
+            <!-- Form for Prediction Submission -->
+            <form method="POST">
+                <label for="solar_azimuth"><b>Solar Azimuth:</b></label>
+                <input type="text" id="solar_azimuth" name="solar_azimuth" value="{{ solar_azimuth }}" required class="input-box"><br><br>
+
+                <label for="lunar_phase"><b>Lunar Phase:</b></label>
+                <input type="text" id="lunar_phase" name="lunar_phase" value="{{ lunar_phase }}" required class="input-box"><br><br>
+
+                <button type="submit">Predict Event</button>
+            </form>
+
+            
+                <div class="result">
+                    <h2>Predicted Tidal Intensity:</h2>
+                    <p><strong>Intensity:</strong> {{ tidal_intensity }}</p>
+                    <p><strong>Category:</strong> {{ intensity_category }}</p>
+                </div>
+            
+        </div>
+        <div class="go-back">
+            <a href="/">Go Back</a>
+        </div>
+
+        <!-- Image Section -->
+        <div class="image-section">
+            <!-- Earth-Moon Distance Image -->
+            <img src="/static/earth-moon-distance.webp" alt="Earth and Moon Distance">
+            <div class="annotation earth-moon">
+                <strong>Earth-Moon Distance:</strong> Highlighting the distance between Earth and the Moon.
+            </div>
+            <p class="content">
+                The Moon orbits the Earth at an average distance of about 384,400 kilometers (238,855 miles). This distance varies slightly due to the Moon's elliptical orbit, ranging from about 356,500 kilometers (221,500 miles) at its closest point (perigee) to approximately 406,700 kilometers (252,700 miles) at its farthest point (apogee).
+
+                This vast distance plays a critical role in the Earth-Moon system. It affects the strength of the Moon's gravitational pull, which drives tides on Earth, and ensures the stability of Earth's axial tilt, contributing to a relatively stable climate. The distance also has been an important factor in space exploration, as it determines travel times for missions to the Moon, such as the historic Apollo missions.
+            </p>
+
+            <!-- Solar Azimuth and Altitude Image -->
+            <img src="/static/Azimuth-and-altitude-angle.png" alt="Solar Azimuth and Altitude">
+            <div class="annotation solar">
+                <strong>Solar Details:</strong> Shows azimuth and altitude of the Sun.
+            </div>
+            <p class="content">
+                Solar Altitude: The angle of the Sun above the horizon, ranging from 0° (sunrise/sunset) to 90° (directly overhead). It changes throughout the day and year depending on time, latitude, and season.
+
+                Solar Azimuth: The direction of the Sun along the horizon, measured in degrees from north (0°). For example, 90° indicates east, 180° south, and 270° west.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

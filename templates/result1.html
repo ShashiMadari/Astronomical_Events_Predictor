@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Prediction Result</title>
+    <style>
+        /* Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/result.jpg'); /* Add your image path here */
+            background-size: cover; /* Ensures the image covers the entire screen */
+            background-position: center center; /* Centers the image */
+            background-attachment: fixed; 
+        }
+        .container {
+            width: 80%;
+            max-width: 1500px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+        .left {
+            width: 50%;
+            margin-right: 20px;
+        }
+        .right {
+            width: 50%;
+        }
+        h1 {
+            text-align: center;
+            color: #34495e;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        .result-box {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            
+        }
+        .result-box h3 {
+            color: #2980b9;
+        }
+        button {
+            background-color: #3498db;
+            color: #fff;
+            font-size: 18px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            
+            max-width: 100%;  /* Ensure the image doesn't overflow its container */
+            height: 100%;  /* Maintain aspect ratio */
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;  /* Set width to a specific percentage (e.g., 80% of the container) */
+
+
+        }
+        footer {
+            background-color: #14181b;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: #eaed36;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left section for image -->
+        <div class="left">
+            <img id="event-image" src="" alt="Event Image">
+        </div>
+
+        <!-- Right section for event details -->
+        <div class="right">
+            <h1>Event Prediction Result</h1>
+            <div class="result-box">
+                <p style="font-weight: bold; font-size: larger;color:  rgb(18, 18, 18);">
+                    <strong>Predicted Event Type:</strong> 
+                    <span style="color: rgb(18, 18, 18); padding: 2px;">{{ event_type }}</span>
+                </p>
+                <p style="font-weight: bold; font-size: larger;color:  rgb(18, 18, 18);">
+                    <strong>Predicted Intensity:</strong> 
+                    <span style="color: #171818; padding: 2px;">{{ event_intensity }}</span>
+                </p>
+                <p style="font-weight: bold; font-size: larger;color:  rgb(18, 18, 18);">
+                    <strong>Predicted Location:</strong> 
+                    <span style="color: #171818; padding: 2px;">{{ visible_location }}</span>
+                </p>
+                <p style="font-weight: bold; font-size: larger;">
+                    <strong>Day/Month/Year:</strong> 
+                    <span style="color:  #7f8c8d; padding: 2px;">{{ day }}/{{ month }}/{{ year }}</span>
+                </p>
+                
+                
+            <div id="event-info"></div>
+            <button onclick="window.history.back();">Go Back</button>
+        </div>
+    </div>
+
+    <script>
+        // Event-specific details
+        const eventDetails = {
+            "Solar_Eclipse": {
+                image: "/static/solar-eclipse.gif",
+                info: "A solar eclipse occurs when the Moon passes between Earth and the Sun, obscuring the view of the Sun from a small part of Earth, totally or partially. Such an alignment occurs approximately every six months, during the eclipse season in its new moon phase, when the Moon's orbital plane is closest to the plane of Earth's orbit. In a total eclipse, the disk of the Sun is fully obscured by the Moon."
+            },
+            "Meteor_Shower (October Draconids - Unknown Parent)": {
+                image: "/static/draconid.webp",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                    "Peak_Activity": "The Draconids generally have a short, intense peak that can produce a significant number of meteors over a short period.",
+                    "Parent_Body": "The parent body of the Draconid meteor shower is believed to be 'Comet 21P/Giacobini-Zinner', which is responsible for the debris that causes the shower.",
+                    "Visibility": "The Draconids are known for being more visible in the Northern Hemisphere, especially in regions with dark skies. The shower can sometimes produce bright meteors or 'fireballs.'",
+                    "Frequency": "The Draconids can sometimes be quite active, though their intensity varies from year to year. During certain years, they have been known to produce outbursts, where the number of visible meteors increases dramatically.",
+                    "Time_of_Observation": "The best time to observe the Draconids is typically after sunset, as the radiant point is near the head of the constellation Draco, which is visible in the evening sky."
+                }
+            },
+            "Meteor_Shower (Lyrids - Comet Thatcher)": {
+                image: "/static/cometthacher.png",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                    "Peak_Activity": "The Lyrids have a moderate peak of activity, producing a notable number of meteors per hour.",
+                    "Parent_Body": "The Lyrid meteor shower is associated with 'Comet Thatcher (C/1861 G1)', which is responsible for the meteoroids that cause the shower.",
+                    "Visibility": "The Lyrids are most visible in the Northern Hemisphere, but they can also be observed in other regions under dark skies.",
+                    "Frequency": "The Lyrids occur every year, but the intensity can vary. Some years experience a stronger display than others.",
+                    "Time_of_Observation": "The best time to observe the Lyrids is in the late evening or early morning, when the radiant in the constellation Lyra is high in the sky."
+                }
+            },
+            "Meteor_Shower (Delta Aquariids - Unknown Parent)": {
+                image: "/static/delta.jpeg",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                    "Peak_Activity": "The Delta Aquariids generally produce a moderate amount of meteors during their peak.",
+                    "Parent_Body": "The parent body of the Delta Aquariids is still unknown, though the shower is likely associated with the debris of an unknown comet.",
+                    "Visibility": "The Delta Aquariids are best visible in the Southern Hemisphere, but can also be seen in parts of the Northern Hemisphere.",
+                    "Frequency": "The Delta Aquariids are active each year, with peak activity usually occurring in late July.",
+                    "Time_of_Observation": "The best time to observe the Delta Aquariids is during the late night or early morning hours, when the radiant point in Aquarius is high in the sky."
+                }
+            },
+            "Meteor_Shower (Perseids - Comet Swift-Tuttle)": {
+                image: "static/swift-tuttle.gif",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                    "Peak_Activity": "The Perseids are one of the most active and reliable meteor showers, with dozens of meteors visible every hour at their peak.",
+                    "Parent_Body": "The Perseids originate from 'Comet Swift-Tuttle', which leaves behind a trail of debris that causes the meteor shower.",
+                    "Visibility": "The Perseids are visible worldwide, with particularly good visibility in the Northern Hemisphere.",
+                    "Frequency": "The Perseids occur every year, typically peaking in mid-August, and they are one of the most popular meteor showers.",
+                    "Time_of_Observation": "The best time to observe the Perseids is in the pre-dawn hours when the radiant in the constellation Perseus is high in the sky."
+                }
+            },
+            "Meteor_Shower (Quadrantids - Unknown Asteroid)": {
+                image: "/static/quadrantid-meteor.gif",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                    "Peak_Activity": "The Quadrantids have a brief but intense peak, often producing a high number of meteors in a short time.",
+                    "Parent_Body": "The Quadrantids are associated with the 'asteroid 2003 EH1', though some suggest it may also be linked to an extinct comet.",
+                    "Visibility": "The Quadrantids are best seen in the Northern Hemisphere, particularly in regions with dark skies during the early part of January.",
+                    "Frequency": "The Quadrantids occur every year, with their peak often being very short-lived, lasting only a few hours.",
+                    "Time_of_Observation": "The best time to observe the Quadrantids is shortly after midnight, when the radiant near the constellation Bootes is highest in the sky."
+                }
+            },
+            "Meteor_Shower (Taurids - Unknown Parent)": {
+                image: "/static/taudis.png",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                    "Peak_Activity": "The Taurids are a long-lasting meteor shower that produces a few meteors per hour at its peak, with occasional outbursts of activity.",
+                    "Parent_Body": "The Taurids are thought to originate from an unknown comet or asteroid, possibly the extinct comet 'P/2003 T12'.",
+                    "Visibility": "The Taurids are visible in both hemispheres, but they are often more prominent in the Northern Hemisphere.",
+                    "Frequency": "The Taurids are active from late October to early November, with two peaks that occur in late October and early November.",
+                    "Time_of_Observation": "The best time to observe the Taurids is during the late night or early morning hours when the radiant in the constellation Taurus is visible."
+                }
+            },
+            "Meteor_Shower (Eta Aquariids - Comet Halley)": {
+                image: "/static/halley.gif",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                    "Peak_Activity": "The Eta Aquariids have a moderate peak, producing meteors at a steady rate over several days.",
+                    "Parent_Body": "The Eta Aquariids are associated with 'Comet Halley', one of the most famous comets in the solar system.",
+                    "Visibility": "The Eta Aquariids are most visible in the Southern Hemisphere but can also be seen in the Northern Hemisphere during their peak in early May.",
+                    "Frequency": "The Eta Aquariids are an annual meteor shower, occurring each year from late April to early May.",
+                    "Time_of_Observation": "The best time to observe the Eta Aquariids is during the pre-dawn hours, with the radiant located near the constellation Aquarius."
+                }
+            },
+            "Meteor_Shower (September Equinox - Unknown Parent)": {
+                image: "/static/meteor-shower.gif",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                "Equinox Phenomenon": "The equinox occurs when the Earth's axis is not tilted toward or away from the Sun, resulting in nearly equal amounts of daylight and darkness across the globe.",
+                "Visibility": "The September equinox is visible worldwide, but its effects are most noticeable in terms of the changing length of daylight, depending on your hemisphere.",
+                "Frequency": "The equinox happens once every year, typically between September 21 and September 23.",
+                "Time_of_Observation": "Unlike meteor showers, the equinox can be observed by simply noting the time of equal day and night, which happens worldwide, but for different exact times depending on the location."
+            }
+            },
+            "Meteor_Shower (Rare Shower - Unknown Parent)":{
+                image: "/static/meteor-shower.gif",
+                info: "A meteor shower is a celestial event in which a number of meteors are observed to radiate, or originate, from one point in the night sky. These meteors are caused by streams of cosmic debris called meteoroids entering Earth's atmosphere at extremely high speeds on parallel trajectories. Most meteors are smaller than a grain of sand, so almost all of them disintegrate and never hit the Earth's surface. Very intense or unusual meteor showers are known as meteor outbursts and meteor storms, which produce at least 1,000 meteors an hour, most notably from the Leonids.",
+                extra_info: {
+                "What it is": "A rare shower refers to an unusual meteor event that may not have an identifiable parent comet or asteroid. These events can surprise observers with their intensity or unexpected timing.",
+                "Parent Body": "The parent body of these rare showers is often unknown, which makes it difficult to predict their appearance and intensity. Some rare showers appear without warning, sometimes caused by fragments from comets or other sources.",
+                "Frequency": "These rare meteor showers are unpredictable and do not follow a consistent yearly pattern. They can occur due to sudden events like a comet fragment breaking up or collisions in space.",
+                "Visibility": "Depending on the timing and location, these rare showers may be visible from multiple parts of the world. However, the unpredictability means they can sometimes be visible from specific regions only.",
+                "Time of Observation": "Observation times for rare showers can vary greatly depending on the location of the radiant point in the sky. Like other meteor showers, the best time to observe them is typically after midnight when the sky is darkest."
+            }
+            },
+            
+            "Full_Moon": {
+                image: "/static/full-moon.gif",
+                info: "The full moon is the lunar phase when the Moon appears fully illuminated from Earth's perspective. This occurs when Earth is located between the Sun and the Moon (when the ecliptic longitudes of the Sun and Moon differ by 180°). This means that the lunar hemisphere facing Earth—the near side—is completely sunlit and appears as an approximately circular disk. The full moon occurs roughly once a month."
+            },
+            "New_Moon": {
+                image: "/static/new-moon.gif",
+                info: "In astronomy, the new moon is the first lunar phase, when the Moon and Sun have the same ecliptic longitude. At this phase, the lunar disk is not visible to the naked eye, except when it is silhouetted against the Sun during a solar eclipse."
+            },
+            "Lunar_Eclipse": {
+                image: "/static/lunar-eclipse.gif",
+                info: "A lunar eclipse is an astronomical event that occurs when the Moon moves into Earth's shadow, causing the Moon to be darkened. This alignment occurs during an eclipse season, approximately every six months, during the full moon phase, when the Moon's orbital plane is closest to the Earth's orbital plane."
+            },
+            "Planet_Alignment (Rare Configuration - 5 Planets)": {
+            image: "/static/planet-align.gif",
+            info: "A planetary alignment is a celestial event that occurs when multiple planets appear close together in the sky from Earth's perspective. This happens when the orbits of several planets bring them to the same side of the Sun at the same time.",
+            extra_info: {
+                "What it is": "A rare configuration involves 5 planets aligning in the sky. These are rarer events and are more striking due to the larger number of planets involved.",
+                "Typical Planets Involved": "Mercury, Venus, Mars, Jupiter, and Saturn are typically involved. Occasionally, Uranus, Neptune, and sometimes Pluto can be part of the configuration, depending on the planets' positions.",
+                "When these occur": "These alignments are much less frequent than those involving only 3 planets. They are often highly anticipated because they are more dramatic and can be visible across larger regions of the world."
+            }
+        },
+        "Planet_Alignment (Moderate Configuration - 3 Planets)": {
+            image: "/static/planet-align.gif",
+            info: "A planetary alignment occurs when three planets appear close together in the sky from Earth's perspective. This happens when the orbits of these planets bring them to the same side of the Sun at the same time.",
+            extra_info: {
+                "What it is": "A moderate configuration involves 3 planets aligning in the sky. These are more common than 5-planet alignments but still create a striking visual event.",
+                "Typical Planets Involved": "Mercury, Venus, Mars, Jupiter, and Saturn are the typical planets involved. The combination can vary, with Mercury, Venus, and Mars being a common grouping.",
+                "When these occur": "These alignments occur more frequently than rare 5-planet configurations, and they are often visible from larger regions of Earth. They are still captivating due to the visible clustering of the planets."
+            }
+        }
+        };
+    
+        // Dynamically set the image and information
+        const predictedEvent = "{{ event_type }}";
+        const eventImage = document.getElementById('event-image');
+        const eventInfo = document.getElementById('event-info');
+    
+        if (eventDetails[predictedEvent]) {
+            eventImage.src = eventDetails[predictedEvent].image;
+            eventInfo.innerHTML = `<p>${eventDetails[predictedEvent].info}</p>`;
+            if (eventDetails[predictedEvent].extra_info) {
+                let extraInfoHTML = "<ul>";
+                for (const key in eventDetails[predictedEvent].extra_info) {
+                    extraInfoHTML += `<li><strong>${key}:</strong> ${eventDetails[predictedEvent].extra_info[key]}</li>`;
+                }
+                extraInfoHTML += "</ul>";
+                eventInfo.innerHTML += extraInfoHTML;
+            }
+        } else {
+            eventImage.alt = "No image available";
+            eventInfo.innerHTML = "<p>Additional details about this event are not available.</p>";
+        }
+    </script>
+    
+</body>
+</html>

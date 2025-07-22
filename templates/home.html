@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/home2.jpeg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+        header {
+            /* margin-top: 25px; */
+            background-color: #000;
+            text-shadow: black 1px 1px 1px;
+            border-radius: 15px;
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        header h1 {
+            padding: 10px;
+            margin: 0;
+            font-size: 28px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .container {
+            
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-shadow: black 1px 1px 1px;
+            /* z-index: 50; */
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .container h1{
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .container p {
+            font-size: 18px;
+            color: #0e1314;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            background-color: #242020;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            align-items: center;
+        }
+
+        /* .button:hover {
+            background-color: #99ac99;
+            color: #fff;
+        } */
+
+        footer {
+            background-color: #14181b;
+            color: #fff;
+            text-align: center;
+            /* padding: 10px 0; */
+            margin-top: auto;
+            width: 100%;
+        }
+
+        footer a {
+            color: #eaed36;
+            text-decoration: none ;
+            margin: 0 10px;
+            font-size: 16px;
+           
+        }
+        footer a:hover{
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Machine Learning Based Astronomical Events Predictor</h1>
+    </header>
+    <div class="container">
+        <h1>Welcome to the Astronomical Events Predictor</h1>
+        <p>Track celestial events and get predictions about solar and lunar activities.</p>
+        <a href="{{ url_for('first_page') }}" class="button"><b>Start Tracking</b></a>
+    </div>
+    <footer>
+        <p>Connect with us:</p>
+        <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+        <a href="https://github.com" target="_blank">GitHub</a>
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <p>&copy; 2024 Astronomical Events Predictor. All rights reserved.</p>
+    </footer>
+</body>
+</html>
